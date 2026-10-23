@@ -1,0 +1,19 @@
+# Love2D Builds & Pakete
+*.love
+*.exe
+*.zip
+
+# Savegames / Log-Dateien (falls dein Spiel lokal in das Projektverzeichnis schreibt)
+*.log
+saves/
+
+# Betriebssystem-Spezifisches
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor / IDE Verzeichnisse
+.vscode/
+.idea/
+*.swp
