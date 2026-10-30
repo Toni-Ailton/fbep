@@ -1,5 +1,5 @@
 
-local colors = {
+local Colors = {
     white       = {1, 1, 1},
     grey        = {160 / 255, 160 / 255, 160 / 255},
     black       = {0, 0, 0},
@@ -18,4 +18,4 @@ local colors = {
     grassgreen  = {144 / 255, 238 / 255, 144 / 255}
 }
 
-return colors
+return Colors

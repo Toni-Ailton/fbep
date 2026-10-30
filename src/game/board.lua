@@ -1,4 +1,4 @@
-local colors = require("src.config.colors")
+local Colors = require("src.config.colors")
 local Layout = require("src.config.layout")
 local Viewport = require("src.engine.viewport")
 local Assets = require("src.engine.assets")

@@ -1,7 +1,7 @@
 -- scenes/start.lua
 local MenuScene = {}
 
-local colors = require("src.config.colors")
+local Colors = require("src.config.colors")
 local Layout = require("src.config.layout")
 local Viewport = require("src.engine.viewport")
 local SceneManager = require("src.engine.scenemanager")
@@ -16,7 +16,7 @@ function MenuScene:update(dt)
 end
 
 function MenuScene:draw()
-    love.graphics.setColor(colors.grey)
+    love.graphics.setColor(Colors.grey)
     love.graphics.print("Hello World", 100, 100)
 end
 
