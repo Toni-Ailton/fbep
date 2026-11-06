@@ -5,8 +5,18 @@ return {
         cards = {
             {
                 id = "bad_event_01",
-                eventIdYellow = "event_001",
-                eventIdRed = "event_002"
+                options = {
+                    yellow = {
+                        eventId = "event_001",
+                        resolution = "immediate",
+                        mayKeep = false
+                    },
+                    red = {
+                        eventId = "event_002",
+                        resolution = "holdUntilTrigger",
+                        mayKeep = false
+                    }
+                }
             }
         }
     },
@@ -16,7 +26,11 @@ return {
         cards = {
             {
                 id = "good_event_01",
-                eventId = "event_003"
+                event = {
+                    eventId = "event_003",
+                    resolution = "immediate",
+                    mayKeep = false
+                }
             }
         }
     },

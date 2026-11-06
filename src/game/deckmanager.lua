@@ -9,6 +9,23 @@ local DeckManager = {
     decks = {}
 }
 
+local eventResolutions = {
+    immediate = true,
+    holdUntilTrigger = true
+}
+
+local function validateEventOption(eventData, cardId, optionName)
+    if type(eventData) ~= "table" or type(eventData.eventId) ~= "string" then
+        error("Ungültige Eventdaten für '" .. tostring(cardId) .. "' (" .. optionName .. ").", 3)
+    end
+    if not eventResolutions[eventData.resolution] then
+        error("Ungültige Event-Auflösung für '" .. tostring(cardId) .. "' (" .. optionName .. ").", 3)
+    end
+    if type(eventData.mayKeep) ~= "boolean" then
+        error("mayKeep muss für '" .. tostring(cardId) .. "' (" .. optionName .. ") true oder false sein.", 3)
+    end
+end
+
 local deckIds = {
     "badEvent",
     "goodEvent",
@@ -18,20 +35,26 @@ local deckIds = {
 
 local cardFactories = {
     badEvent = function(cardData, deckId, backsideImage)
+        if type(cardData.options) ~= "table" then
+            error("Event-Optionen für '" .. tostring(cardData.id) .. "' fehlen.", 2)
+        end
+        for optionName, eventData in pairs(cardData.options) do
+            validateEventOption(eventData, cardData.id, optionName)
+        end
         return BadEvent.new(
             cardData.id,
             deckId,
             backsideImage,
-            cardData.eventIdYellow,
-            cardData.eventIdRed
+            cardData.options
         )
     end,
     goodEvent = function(cardData, deckId, backsideImage)
+        validateEventOption(cardData.event, cardData.id, "event")
         return GoodEvent.new(
             cardData.id,
             deckId,
             backsideImage,
-            cardData.eventId
+            cardData.event
         )
     end,
     dfbCup = function(cardData, deckId, backsideImage)

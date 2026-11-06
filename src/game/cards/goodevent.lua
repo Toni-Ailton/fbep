@@ -4,15 +4,20 @@ local GoodEvent = {}
 GoodEvent.__index = GoodEvent
 setmetatable(GoodEvent, {__index = Card})
 
-function GoodEvent.new(id, deckId, backsideImage, eventId)
+function GoodEvent.new(id, deckId, backsideImage, event)
     local self = Card.new(id, deckId, backsideImage)
-    self.eventId = eventId
+    self.event = event
     setmetatable(self, GoodEvent)
     return self
 end
 
-function GoodEvent:triggerEvent() -- Referenz auf Spielzustand, Spieler oder ähnliches
-    triggerEvent(self.eventId)
+function GoodEvent:getEventOption()
+    return self.event
+end
+
+function GoodEvent:triggerEvent()
+    local event = self:getEventOption()
+    triggerEvent(event.eventId)
 end
 
 return GoodEvent

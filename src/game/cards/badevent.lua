@@ -4,20 +4,24 @@ local BadEvent = {}
 BadEvent.__index = BadEvent
 setmetatable(BadEvent, {__index = Card})
 
-function BadEvent.new(id, deckId, backsideImage, eventIdYellow, eventIdRed)
+function BadEvent.new(id, deckId, backsideImage, options)
     local self = Card.new(id, deckId, backsideImage)
-    self.eventIdYellow = eventIdYellow
-    self.eventIdRed = eventIdRed
+    self.options = options
     setmetatable(self, BadEvent)
     return self
 end
 
-function BadEvent:triggerEvent(eventOption) -- Referenz auf Spielzustand, Spieler oder ähnliches
-    if eventOption == "yellow" then
-        triggerEvent(self.eventIdYellow)
-    elseif eventOption == "red" then
-        triggerEvent(self.eventIdRed)
+function BadEvent:getEventOption(eventOption)
+    local option = self.options[eventOption]
+    if not option then
+        error("Unbekannte Event-Option '" .. tostring(eventOption) .. "' für Karte '" .. self.id .. "'.", 2)
     end
+    return option
+end
+
+function BadEvent:triggerEvent(eventOption)
+    local option = self:getEventOption(eventOption)
+    triggerEvent(option.eventId)
 end
 
 return BadEvent
