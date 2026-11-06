@@ -1,4 +1,4 @@
-local Card = require("src.game.card")
+local Card = require("src.game.cards.card")
 
 local BadEvent = {}
 BadEvent.__index = BadEvent
