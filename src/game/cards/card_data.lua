@@ -9,12 +9,14 @@ return {
                     yellow = {
                         eventId = "event_001",
                         resolution = "immediate",
-                        mayKeep = false
+                        mayKeep = false,
+                        duration = 1
                     },
                     red = {
                         eventId = "event_002",
                         resolution = "holdUntilTrigger",
-                        mayKeep = false
+                        mayKeep = false,
+                        duration = 1
                     }
                 }
             }
@@ -29,7 +31,8 @@ return {
                 event = {
                     eventId = "event_003",
                     resolution = "immediate",
-                    mayKeep = false
+                    mayKeep = false,
+                    duration = 1
                 }
             }
         }
