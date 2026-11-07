@@ -1,4 +1,4 @@
--- src/game/cards/card_data.lua
+-- src/game/cards/carddata.lua
 return {
     badEvent = {
         backsideImage = "badEvent",
