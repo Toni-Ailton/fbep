@@ -1,5 +1,5 @@
 local Assets = require("src.engine.assets")
-local CardData = require("src.game.cards.card_data")
+local CardData = require("src.game.cards.carddata")
 local BadEvent = require("src.game.cards.badevent")
 local GoodEvent = require("src.game.cards.goodevent")
 local DfbCup = require("src.game.cards.dfbcup")
@@ -76,6 +76,18 @@ local cardFactories = {
     end
 }
 
+function DeckManager:shuffleDeck(deckId)
+    local deck = self.decks[deckId]
+    if type(deck) ~= "table" then
+        error("Der Kartenstapel '" .. tostring(deckId) .. "' ist nicht initialisiert.", 2)
+    end
+
+    for index = #deck, 2, -1 do
+        local swapIndex = math.random(index)
+        deck[index], deck[swapIndex] = deck[swapIndex], deck[index]
+    end
+end
+
 function DeckManager:initialize()
     if not Assets.cards or not Assets.cards.backsideImages then
         error("Assets müssen vor der Initialisierung der Kartenstapel geladen werden.", 2)
@@ -83,7 +95,7 @@ function DeckManager:initialize()
 
     for deckId in pairs(CardData) do
         if not cardFactories[deckId] then
-            error("Unbekannter Kartentyp in card_data.lua: " .. tostring(deckId), 2)
+            error("Unbekannter Kartentyp in carddata.lua: " .. tostring(deckId), 2)
         end
     end
 
@@ -92,7 +104,7 @@ function DeckManager:initialize()
         local deckData = CardData[deckId]
         local createCard = cardFactories[deckId]
         if type(deckData) ~= "table" then
-            error("Der Kartenstapel '" .. deckId .. "' fehlt in card_data.lua.", 2)
+            error("Der Kartenstapel '" .. deckId .. "' fehlt in carddata.lua.", 2)
         end
         if type(deckData.cards) ~= "table" or #deckData.cards == 0 then
             error("Der Kartenstapel '" .. deckId .. "' enthält keine Karten.", 2)
@@ -120,6 +132,11 @@ function DeckManager:initialize()
     end
 
     self.decks = decks
+
+    -- Shuffle all decks after initialization
+    for _, deckId in ipairs(deckIds) do
+        self:shuffleDeck(deckId)
+    end
 end
 
 return DeckManager
