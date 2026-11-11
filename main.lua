@@ -4,11 +4,13 @@ local Viewport = require("src.engine.viewport")
 local Assets = require("src.engine.assets")
 local Coroutines = require("src.engine.coroutines")
 local SceneManager = require("src.engine.scenemanager")
-local DeckManager = require("src.game.deckmanager")
+local GameManager = require("src.game.gamemanager")
 
 local MenuScene = require("src.scenes.menu")
 
 local Board = require("src.game.board")
+
+local gameManager
 
 SceneManager:addScene("menu", MenuScene)
 SceneManager:switch("menu", true)
@@ -16,7 +18,7 @@ SceneManager:switch("menu", true)
 function love.load()
     math.randomseed(os.time())
     Assets:load()
-    DeckManager:initialize()
+    gameManager = GameManager.new()
     Viewport:update()
 end
 

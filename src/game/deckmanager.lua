@@ -5,9 +5,8 @@ local GoodEvent = require("src.game.cards.goodevent")
 local DfbCup = require("src.game.cards.dfbcup")
 local EuroCup = require("src.game.cards.eurocup")
 
-local DeckManager = {
-    decks = {}
-}
+local DeckManager = {}
+DeckManager.__index = DeckManager
 
 local eventResolutions = {
     immediate = true,
@@ -76,8 +75,18 @@ local cardFactories = {
     end
 }
 
+function DeckManager.new(gameState)
+    if type(gameState) ~= "table" or type(gameState.decks) ~= "table" then
+        error("Der DeckManager benötigt einen GameState mit initialisierten decks.", 2)
+    end
+
+    local self = setmetatable({}, DeckManager)
+    self.gameState = gameState
+    return self
+end
+
 function DeckManager:shuffleDeck(deckId)
-    local deck = self.decks[deckId]
+    local deck = self.gameState.decks[deckId]
     if type(deck) ~= "table" then
         error("Der Kartenstapel '" .. tostring(deckId) .. "' ist nicht initialisiert.", 2)
     end
@@ -131,7 +140,7 @@ function DeckManager:initialize()
         end
     end
 
-    self.decks = decks
+    self.gameState.decks = decks
 
     -- Shuffle all decks after initialization
     for _, deckId in ipairs(deckIds) do

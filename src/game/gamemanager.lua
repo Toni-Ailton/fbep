@@ -2,12 +2,16 @@ local GameManager = {}
 GameManager.__index = GameManager
 
 local GameState = require("src.game.gamestate")
+local DeckManager = require("src.game.deckmanager")
 local MovePhase = require("src.game.phases.movephase")
 local ActionPhase = require("src.game.phases.actionphase")
 
 function GameManager.new()
     local self = setmetatable({}, GameManager)
     self.state = GameState.new()
+    self.deckManager = DeckManager.new(self.state)
+    self.deckManager:initialize()
+
     self.phases = {
         move = MovePhase.new(self),
         action = ActionPhase.new(self)
@@ -33,3 +37,5 @@ function GameManager:changePhase(phaseName)
     end
     self.currentPhase = phase
 end
+
+return GameManager

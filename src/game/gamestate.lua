@@ -5,7 +5,7 @@ function GameState.new()
     local self = setmetatable({}, GameState)
     self.currentPlayer = nil
     self.players = {}
-    self.deck = {}
+    self.decks = {}
     self.gameover = false
     return self
 end
