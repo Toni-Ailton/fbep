@@ -28,6 +28,9 @@ end
 
 function love.update(dt)
     SceneManager:update(dt)
+    if gameManager then
+        gameManager:update(dt)
+    end
 end
 
 function love.draw()

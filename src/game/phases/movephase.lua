@@ -11,16 +11,15 @@ function MovePhase:enter()
     print("Entering Move Phase")
     local gameState = self.gameManager.state
     local currentPlayer = gameState:getCurrentPlayer()
-
 end
 
 function MovePhase:update(dt)
     -- Würfeln und Bewegung durchführen
     
     -- Ereignis auslösen
-
+    -- Wenn Bewegung und Ereignis abgeschlossen sind:
+    self.gameManager:completeCurrentPhase()
 end
-
 
 function MovePhase:finish()
     print("Move Phase finished")

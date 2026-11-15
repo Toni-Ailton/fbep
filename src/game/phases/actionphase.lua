@@ -16,16 +16,12 @@ end
 
 function ActionPhase:update(dt)
     -- Wait for player to choose an action
+    -- Sobald die Aktion abgeschlossen ist:
+    self.gameManager:completeCurrentPhase()
 end
 
 function ActionPhase:finish()
     print("Action Phase finished")
-
-    -- set next player's turn
-
-
-    -- set phase back to "move"
-
 end
 
 
