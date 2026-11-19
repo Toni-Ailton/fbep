@@ -12,13 +12,18 @@ local Board = require("src.game.board")
 
 local gameManager
 
+local function startGame(gameSetup)
+    gameManager = GameManager.new(gameSetup)
+end
+
+MenuScene.onStartGame = startGame
+
 SceneManager:addScene("menu", MenuScene)
 SceneManager:switch("menu", true)
 
 function love.load()
     math.randomseed(os.time())
     Assets:load()
-    gameManager = GameManager.new()
     Viewport:update()
 end
 

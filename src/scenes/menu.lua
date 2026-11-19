@@ -7,12 +7,29 @@ local Viewport = require("src.engine.viewport")
 local SceneManager = require("src.engine.scenemanager")
 local Assets = require("src.engine.assets")
 
-function MenuScene:enter()
+local gameSetup = {
+    players = {
+        { controller = "human" },
+        { controller = "ai" },
+        { controller = "ai" },
+        { controller = "ai" }
+    }
+}
 
+local startGameForTesting = true
+
+function MenuScene:enter()
+    self.startTriggered = false
 end
 
 function MenuScene:update(dt)
-
+    if startGameForTesting and not self.startTriggered then
+        self.startTriggered = true
+        if type(self.onStartGame) ~= "function" then
+            error("Für das Menü ist kein Spielstart-Callback eingerichtet.", 2)
+        end
+        self.onStartGame(gameSetup)
+    end
 end
 
 function MenuScene:draw()
