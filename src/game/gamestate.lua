@@ -8,9 +8,29 @@ function GameState.new(clubs)
 
     local self = setmetatable({}, GameState)
     self.currentClub = nil
-    self.clubs = clubs or {}
+    self.clubs = {}
     self.decks = {}
     self.gameover = false
+
+    for clubIndex, clubSetup in ipairs(clubs or {}) do
+        self.clubs[clubIndex] = {
+            controller = clubSetup.controller,
+            pawnImagePath = "assets/sprites/players/dummy_club_" .. clubIndex .. ".png",
+            money = 1000000,
+            points = 0,
+            squarePosition = 0,
+            dfbCup = true,
+            euroCup = true,
+            playersByStrength = {
+                [1] = 1,
+                [2] = 4,
+                [3] = 3,
+                [4] = 2,
+                [5] = 1
+            },
+            cardHand = {}
+        }
+    end
 
     if #self.clubs > 0 then
         self.currentClub = 1
