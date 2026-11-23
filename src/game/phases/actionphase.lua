@@ -10,7 +10,7 @@ end
 function ActionPhase:enter()
     print("Entering Action Phase")
     local gameState = self.gameManager.state
-    local currentPlayer = gameState:getCurrentPlayer()
+    local currentClub = gameState:getCurrentClub()
 
 end
 

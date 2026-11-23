@@ -1,37 +1,37 @@
 local GameState = {}
 GameState.__index = GameState
 
-function GameState.new(players)
-    if players ~= nil and type(players) ~= "table" then
-        error("Spieler müssen als Tabelle übergeben werden.", 2)
+function GameState.new(clubs)
+    if clubs ~= nil and type(clubs) ~= "table" then
+        error("Clubs müssen als Tabelle übergeben werden.", 2)
     end
 
     local self = setmetatable({}, GameState)
-    self.currentPlayer = nil
-    self.players = players or {}
+    self.currentClub = nil
+    self.clubs = clubs or {}
     self.decks = {}
     self.gameover = false
 
-    if #self.players > 0 then
-        self.currentPlayer = 1
+    if #self.clubs > 0 then
+        self.currentClub = 1
     end
 
     return self
 end
 
-function GameState:getCurrentPlayer()
-    return self.currentPlayer
+function GameState:getCurrentClub()
+    return self.currentClub
 end
 
-function GameState:nextPlayer()
-    if #self.players == 0 then
-        error("Spieler müssen vor dem Wechsel eingerichtet werden.", 2)
+function GameState:nextClub()
+    if #self.clubs == 0 then
+        error("Clubs müssen vor dem Wechsel eingerichtet werden.", 2)
     end
-    if not self.currentPlayer then
-        error("Es ist kein aktueller Spieler gesetzt.", 2)
+    if not self.currentClub then
+        error("Es ist kein aktueller Club gesetzt.", 2)
     end
 
-    self.currentPlayer = (self.currentPlayer % #self.players) + 1
+    self.currentClub = (self.currentClub % #self.clubs) + 1
 end
 
 

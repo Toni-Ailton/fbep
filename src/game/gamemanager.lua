@@ -14,7 +14,7 @@ function GameManager.new(gameSetup)
 
     local self = setmetatable({}, GameManager)
     self.setup = gameSetup
-    self.state = GameState.new(gameSetup.players)
+    self.state = GameState.new(gameSetup.clubs)
     self.deckManager = DeckManager.new(self.state)
     self.deckManager:initialize()
 
@@ -39,21 +39,21 @@ end
 
 function GameManager:completeCurrentPhase()
     local nextPhaseName
-    local advancePlayer = false
+    local advanceClub = false
 
     if self.currentPhaseName == "move" then
         nextPhaseName = "action"
     elseif self.currentPhaseName == "action" then
         nextPhaseName = "move"
-        advancePlayer = true
+        advanceClub = true
     else
         error("Keine aktive Phase zum Abschließen.", 2)
     end
 
-    self:changePhase(nextPhaseName, advancePlayer)
+    self:changePhase(nextPhaseName, advanceClub)
 end
 
-function GameManager:changePhase(phaseName, advancePlayer)
+function GameManager:changePhase(phaseName, advanceClub)
     local phase = self.phases[phaseName]
     if not phase then
         error("Unbekannte Phase '" .. tostring(phaseName) .. "'.", 2)
@@ -62,8 +62,8 @@ function GameManager:changePhase(phaseName, advancePlayer)
     if self.currentPhase then
         self.currentPhase:finish()
     end
-    if advancePlayer then
-        self.state:nextPlayer()
+    if advanceClub then
+        self.state:nextClub()
     end
 
     self.currentPhase = phase

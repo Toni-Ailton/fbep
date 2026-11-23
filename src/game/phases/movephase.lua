@@ -10,7 +10,7 @@ end
 function MovePhase:enter()
     print("Entering Move Phase")
     local gameState = self.gameManager.state
-    local currentPlayer = gameState:getCurrentPlayer()
+    local currentClub = gameState:getCurrentClub()
 end
 
 function MovePhase:update(dt)

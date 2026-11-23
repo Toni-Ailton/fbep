@@ -8,7 +8,7 @@ local SceneManager = require("src.engine.scenemanager")
 local Assets = require("src.engine.assets")
 
 local gameSetup = {
-    players = {
+    clubs = {
         { controller = "human" },
         { controller = "ai" },
         { controller = "ai" },
