@@ -8,20 +8,26 @@ local EuroCup = require("src.game.cards.eurocup")
 local DeckManager = {}
 DeckManager.__index = DeckManager
 
-local eventResolutions = {
+local eventConditions = {
     immediate = true,
-    holdUntilTrigger = true
+    match = true
 }
 
 local function validateEventOption(eventData, cardId, optionName)
     if type(eventData) ~= "table" or type(eventData.eventId) ~= "string" then
         error("Ungültige Eventdaten für '" .. tostring(cardId) .. "' (" .. optionName .. ").", 3)
     end
-    if not eventResolutions[eventData.resolution] then
-        error("Ungültige Event-Auflösung für '" .. tostring(cardId) .. "' (" .. optionName .. ").", 3)
+    if not eventConditions[eventData.condition] then
+        error("Ungültige Event-Bedingung für '" .. tostring(cardId) .. "' (" .. optionName .. ").", 3)
     end
-    if type(eventData.mayKeep) ~= "boolean" then
-        error("mayKeep muss für '" .. tostring(cardId) .. "' (" .. optionName .. ") true oder false sein.", 3)
+    if type(eventData.maxResolutions) ~= "number"
+        or eventData.maxResolutions < 1
+        or eventData.maxResolutions % 1 ~= 0
+    then
+        error("maxResolutions muss für '" .. tostring(cardId) .. "' (" .. optionName .. ") eine positive ganze Zahl sein.", 3)
+    end
+    if type(eventData.optional) ~= "boolean" then
+        error("optional muss für '" .. tostring(cardId) .. "' (" .. optionName .. ") true oder false sein.", 3)
     end
 end
 
@@ -39,6 +45,9 @@ local cardFactories = {
         end
         for optionName, eventData in pairs(cardData.options) do
             validateEventOption(eventData, cardData.id, optionName)
+            if eventData.optional then
+                error("BadEvents dürfen nicht optional sein ('" .. tostring(cardData.id) .. "', " .. optionName .. ").", 2)
+            end
         end
         return BadEvent.new(
             cardData.id,

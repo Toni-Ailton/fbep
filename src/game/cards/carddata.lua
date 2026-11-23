@@ -9,16 +9,16 @@ return {
                     yellow = {
                         displayText = "Dummy Yellow Card",
                         eventId = "event_001",
-                        resolution = "immediate",
-                        mayKeep = false,
-                        duration = 1
+                        condition = "immediate",
+                        maxResolutions = 1,
+                        optional = false
                     },
                     red = {
                         displayText = "Dummy Red Card",
                         eventId = "event_002",
-                        resolution = "holdUntilTrigger",
-                        mayKeep = false,
-                        duration = 1
+                        condition = "match",
+                        maxResolutions = 1,
+                        optional = false
                     }
                 }
             }
@@ -33,9 +33,9 @@ return {
                 event = {
                     displayText = "Dummy Good Event",
                     eventId = "event_003",
-                    resolution = "immediate",
-                    mayKeep = false,
-                    duration = 1
+                    condition = "immediate",
+                    maxResolutions = 1,
+                    optional = false
                 }
             }
         }
