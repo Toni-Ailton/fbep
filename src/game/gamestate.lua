@@ -2,10 +2,6 @@ local GameState = {}
 GameState.__index = GameState
 
 function GameState.new(clubs)
-    if clubs ~= nil and type(clubs) ~= "table" then
-        error("Clubs müssen als Tabelle übergeben werden.", 2)
-    end
-
     local self = setmetatable({}, GameState)
     self.currentClub = nil
     self.clubs = {}

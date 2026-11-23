@@ -8,29 +8,6 @@ local EuroCup = require("src.game.cards.eurocup")
 local DeckManager = {}
 DeckManager.__index = DeckManager
 
-local eventConditions = {
-    immediate = true,
-    match = true
-}
-
-local function validateEventOption(eventData, cardId, optionName)
-    if type(eventData) ~= "table" or type(eventData.eventId) ~= "string" then
-        error("Ungültige Eventdaten für '" .. tostring(cardId) .. "' (" .. optionName .. ").", 3)
-    end
-    if not eventConditions[eventData.condition] then
-        error("Ungültige Event-Bedingung für '" .. tostring(cardId) .. "' (" .. optionName .. ").", 3)
-    end
-    if type(eventData.maxResolutions) ~= "number"
-        or eventData.maxResolutions < 1
-        or eventData.maxResolutions % 1 ~= 0
-    then
-        error("maxResolutions muss für '" .. tostring(cardId) .. "' (" .. optionName .. ") eine positive ganze Zahl sein.", 3)
-    end
-    if type(eventData.optional) ~= "boolean" then
-        error("optional muss für '" .. tostring(cardId) .. "' (" .. optionName .. ") true oder false sein.", 3)
-    end
-end
-
 local deckIds = {
     "badEvent",
     "goodEvent",
@@ -40,15 +17,6 @@ local deckIds = {
 
 local cardFactories = {
     badEvent = function(cardData, deckId, backsideImage)
-        if type(cardData.options) ~= "table" then
-            error("Event-Optionen für '" .. tostring(cardData.id) .. "' fehlen.", 2)
-        end
-        for optionName, eventData in pairs(cardData.options) do
-            validateEventOption(eventData, cardData.id, optionName)
-            if eventData.optional then
-                error("BadEvents dürfen nicht optional sein ('" .. tostring(cardData.id) .. "', " .. optionName .. ").", 2)
-            end
-        end
         return BadEvent.new(
             cardData.id,
             deckId,
@@ -57,7 +25,6 @@ local cardFactories = {
         )
     end,
     goodEvent = function(cardData, deckId, backsideImage)
-        validateEventOption(cardData.event, cardData.id, "event")
         return GoodEvent.new(
             cardData.id,
             deckId,
@@ -85,10 +52,6 @@ local cardFactories = {
 }
 
 function DeckManager.new(gameState)
-    if type(gameState) ~= "table" or type(gameState.decks) ~= "table" then
-        error("Der DeckManager benötigt einen GameState mit initialisierten decks.", 2)
-    end
-
     local self = setmetatable({}, DeckManager)
     self.gameState = gameState
     return self
@@ -111,22 +74,10 @@ function DeckManager:initialize()
         error("Assets müssen vor der Initialisierung der Kartenstapel geladen werden.", 2)
     end
 
-    for deckId in pairs(CardData) do
-        if not cardFactories[deckId] then
-            error("Unbekannter Kartentyp in carddata.lua: " .. tostring(deckId), 2)
-        end
-    end
-
     local decks = {}
     for _, deckId in ipairs(deckIds) do
         local deckData = CardData[deckId]
         local createCard = cardFactories[deckId]
-        if type(deckData) ~= "table" then
-            error("Der Kartenstapel '" .. deckId .. "' fehlt in carddata.lua.", 2)
-        end
-        if type(deckData.cards) ~= "table" or #deckData.cards == 0 then
-            error("Der Kartenstapel '" .. deckId .. "' enthält keine Karten.", 2)
-        end
 
         local backsideImage = Assets.cards.backsideImages[deckData.backsideImage]
         if not backsideImage then
@@ -139,12 +90,6 @@ function DeckManager:initialize()
 
         decks[deckId] = {}
         for index, cardData in ipairs(deckData.cards) do
-            if type(cardData) ~= "table" or cardData.id == nil then
-                error(
-                    "Ungültige Kartendaten an Position " .. index .. " im Stapel '" .. deckId .. "'.",
-                    2
-                )
-            end
             decks[deckId][index] = createCard(cardData, deckId, backsideImage)
         end
     end

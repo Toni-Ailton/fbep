@@ -7,9 +7,6 @@ local MovePhase = require("src.game.phases.movephase")
 local ActionPhase = require("src.game.phases.actionphase")
 
 function GameManager.new(gameSetup)
-    if gameSetup ~= nil and type(gameSetup) ~= "table" then
-        error("Die Spielkonfiguration muss als Tabelle übergeben werden.", 2)
-    end
     gameSetup = gameSetup or {}
 
     local self = setmetatable({}, GameManager)
