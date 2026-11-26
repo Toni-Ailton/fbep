@@ -4,9 +4,9 @@ local BadEvent = {}
 BadEvent.__index = BadEvent
 setmetatable(BadEvent, {__index = Card})
 
-function BadEvent.new(id, deckId, backsideImage, options)
-    local self = Card.new(id, deckId, backsideImage)
-    self.options = options
+function BadEvent.new(id, deckId, backsideImage, cardData)
+    local self = Card.new(id, deckId, backsideImage, cardData)
+    self.options = cardData.options
     setmetatable(self, BadEvent)
     return self
 end

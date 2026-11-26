@@ -21,7 +21,7 @@ local cardFactories = {
             cardData.id,
             deckId,
             backsideImage,
-            cardData.options
+            cardData
         )
     end,
     goodEvent = function(cardData, deckId, backsideImage)
@@ -29,7 +29,7 @@ local cardFactories = {
             cardData.id,
             deckId,
             backsideImage,
-            cardData.event
+            cardData
         )
     end,
     dfbCup = function(cardData, deckId, backsideImage)

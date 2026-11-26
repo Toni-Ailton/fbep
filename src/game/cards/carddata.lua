@@ -9,16 +9,32 @@ return {
                     yellow = {
                         displayText = "Dummy Yellow Card",
                         eventId = "event_001",
-                        condition = "immediate",
-                        maxResolutions = 1,
-                        optional = false
+                        resolution = "immediate",
+                        maxResolutions = 1
                     },
                     red = {
                         displayText = "Dummy Red Card",
                         eventId = "event_002",
-                        condition = "match",
-                        maxResolutions = 1,
-                        optional = false
+                        resolution = "immediate",
+                        maxResolutions = 1
+                    }
+                }
+            },
+            {
+                id = "bad_event_02",
+                options = {
+                    yellow = {
+                        displayText = "Dummy Yellow Card",
+                        eventId = "event_003",
+                        resolution = "immediate",
+                        maxResolutions = 1
+                    },
+                    red = {
+                        displayText = "Dummy Red Card",
+                        eventId = "event_004",
+                        resolution = "holdUntilTrigger",
+                        trigger = "homeMatch",
+                        maxResolutions = 1
                     }
                 }
             }
@@ -30,13 +46,18 @@ return {
         cards = {
             {
                 id = "good_event_01",
+                optional = false,
                 event = {
                     displayText = "Dummy Good Event",
                     eventId = "event_003",
-                    condition = "immediate",
-                    maxResolutions = 1,
-                    optional = false
+                    resolution = "immediate",
+                    maxResolutions = 1
                 }
+            },
+            {
+                id = "good_event_02",
+                optional = true,
+                respondsToBadEvent = "yellow"
             }
         }
     },
