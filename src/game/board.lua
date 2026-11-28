@@ -3,8 +3,11 @@ local Layout = require("src.config.layout")
 local Viewport = require("src.engine.viewport")
 local Assets = require("src.engine.assets")
 local Coroutines = require("src.engine.coroutines")
+local BoardData = require("src.game.boarddata")
 
-local Board = {}
+local Board = {
+    squares = BoardData.squares
+}
 
 function Board:load()
     -- re-Initialisierung, anderernfalls würden bei Neustart weitere Elemente per insert an die Tabellen angehängt werden!
